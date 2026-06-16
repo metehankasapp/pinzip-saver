@@ -16,6 +16,9 @@
   let autoCollectTimer = null;
   let autoCollectTarget = 0;
   let autoCollectStartY = 0;
+  let scanQueued = false;
+  let previewDirty = true;
+  let toolbarDirty = true;
 
   function cleanUrl(url) {
     if (!url) return "";
@@ -194,6 +197,8 @@
   function setSelectMode(enabled) {
     document.documentElement.classList.toggle(SELECT_MODE_CLASS, enabled);
     ensureModeToggle().textContent = enabled ? "Done" : "Select";
+    toolbarDirty = true;
+    previewDirty = true;
     updateUi();
   }
 
@@ -277,6 +282,7 @@
   }
 
   function updateToolbar() {
+    if (!toolbarDirty) return;
     const toolbar = ensureToolbar();
     const count = selected.size;
     const duplicateText = duplicateSkips ? ` | ${duplicateSkips} dupes` : "";
@@ -285,9 +291,11 @@
       "pzs-bulk-toolbar-visible",
       document.documentElement.classList.contains(SELECT_MODE_CLASS)
     );
+    toolbarDirty = false;
   }
 
   function updatePreviewPanel() {
+    if (!previewDirty) return;
     const panel = ensurePreviewPanel();
     const grid = panel.querySelector("#pzs-preview-grid");
     const items = Array.from(selected.values());
@@ -316,6 +324,7 @@
         return tile;
       })
     );
+    previewDirty = false;
   }
 
   function updateUi() {
@@ -349,6 +358,8 @@
       selected.delete(info.key);
     }
 
+    toolbarDirty = true;
+    previewDirty = true;
     syncControlState(control);
   }
 
@@ -382,16 +393,24 @@
     selected.clear();
     duplicateSkips = 0;
     document.querySelectorAll(`.${CONTROL_CLASS}`).forEach(syncControlState);
+    toolbarDirty = true;
+    previewDirty = true;
     updateUi();
   }
 
   function selectVisibleImages() {
+    let changed = false;
     document.querySelectorAll(`.${CONTROL_CLASS}`).forEach((control) => {
       const wrapper = control.closest("[data-pzs-wrapper='1']");
       if (wrapper && isVisibleInViewport(wrapper) && control.getAttribute("aria-checked") !== "true") {
         setControlSelected(control, true);
+        changed = true;
       }
     });
+    if (changed) {
+      toolbarDirty = true;
+      previewDirty = true;
+    }
     updateUi();
   }
 
@@ -410,7 +429,7 @@
     autoCollectTimer = window.setInterval(() => {
       const before = selected.size;
       selectVisibleImages();
-      window.scrollBy({ top: Math.round(window.innerHeight * 0.82), left: 0, behavior: "smooth" });
+      window.scrollBy(0, Math.round(window.innerHeight * 0.82));
 
       const nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80;
       const stuck = before === selected.size && window.scrollY === autoCollectStartY;
@@ -431,6 +450,7 @@
     const button = document.getElementById("pzs-auto-collect");
     if (button) button.textContent = "Collect 200";
     if (message) showToast(message);
+    toolbarDirty = true;
     updateUi();
   }
 
@@ -661,11 +681,19 @@
     ensureToolbar();
     ensurePreviewPanel();
     document.querySelectorAll("img").forEach(attachControl);
-    document.querySelectorAll(`.${CONTROL_CLASS}`).forEach(syncControlState);
     updateUi();
   }
 
-  const observer = new MutationObserver(() => scanImages());
+  function requestScan() {
+    if (scanQueued) return;
+    scanQueued = true;
+    window.setTimeout(() => {
+      scanQueued = false;
+      scanImages();
+    }, 350);
+  }
+
+  const observer = new MutationObserver(() => requestScan());
   observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
@@ -673,9 +701,9 @@
     attributeFilter: ["src", "srcset"],
   });
 
-  window.addEventListener("load", scanImages);
-  window.addEventListener("resize", scanImages);
+  window.addEventListener("load", requestScan);
+  window.addEventListener("resize", requestScan);
   window.addEventListener("beforeunload", () => stopAutoCollect());
-  setInterval(scanImages, SCAN_INTERVAL_MS);
+  setInterval(requestScan, SCAN_INTERVAL_MS);
   scanImages();
 })();

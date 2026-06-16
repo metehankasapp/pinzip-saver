@@ -44,6 +44,8 @@ It is designed for personal archiving of content you can already view in your br
 
 Some images may be protected by site or browser fetch rules. When that happens, PinZip Saver still creates the ZIP for images it can fetch and includes blocked URLs in `failed-links.txt`.
 
+For performance on large infinite-scroll pages, the preview panel renders the latest selected thumbnails while ZIP export still includes every selected image.
+
 ## License
 
 MIT
