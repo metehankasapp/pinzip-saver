@@ -17,7 +17,6 @@
   let autoCollectTarget = 0;
   let autoCollectStartY = 0;
   let scanQueued = false;
-  let previewDirty = true;
   let toolbarDirty = true;
 
   function cleanUrl(url) {
@@ -126,7 +125,6 @@
       key,
       url,
       title: img.alt || document.title || "image",
-      previewUrl: cleanUrl(img.currentSrc || img.src || sourceUrl),
       quality: getQualityLabel(url, srcsetCandidate?.descriptor),
     };
   }
@@ -198,7 +196,6 @@
     document.documentElement.classList.toggle(SELECT_MODE_CLASS, enabled);
     ensureModeToggle().textContent = enabled ? "Done" : "Select";
     toolbarDirty = true;
-    previewDirty = true;
     updateUi();
   }
 
@@ -264,23 +261,6 @@
     return toolbar;
   }
 
-  function ensurePreviewPanel() {
-    let panel = document.getElementById("pzs-preview-panel");
-    if (panel) return panel;
-
-    panel = document.createElement("aside");
-    panel.id = "pzs-preview-panel";
-    panel.innerHTML = `
-      <div id="pzs-preview-header">
-        <strong>Selected</strong>
-        <span id="pzs-preview-meta">0 images</span>
-      </div>
-      <div id="pzs-preview-grid"></div>
-    `;
-    document.documentElement.appendChild(panel);
-    return panel;
-  }
-
   function updateToolbar() {
     if (!toolbarDirty) return;
     const toolbar = ensureToolbar();
@@ -294,42 +274,8 @@
     toolbarDirty = false;
   }
 
-  function updatePreviewPanel() {
-    if (!previewDirty) return;
-    const panel = ensurePreviewPanel();
-    const grid = panel.querySelector("#pzs-preview-grid");
-    const items = Array.from(selected.values());
-
-    panel.classList.toggle(
-      "pzs-preview-panel-visible",
-      document.documentElement.classList.contains(SELECT_MODE_CLASS) && items.length > 0
-    );
-    panel.querySelector("#pzs-preview-meta").textContent = `${items.length} images`;
-
-    grid.replaceChildren(
-      ...items.slice(-80).map((item) => {
-        const tile = document.createElement("div");
-        tile.className = "pzs-preview-tile";
-        tile.title = item.title;
-
-        const img = document.createElement("img");
-        img.src = item.previewUrl || item.url;
-        img.alt = "";
-        img.loading = "lazy";
-
-        const badge = document.createElement("span");
-        badge.textContent = item.quality || "image";
-
-        tile.append(img, badge);
-        return tile;
-      })
-    );
-    previewDirty = false;
-  }
-
   function updateUi() {
     updateToolbar();
-    updatePreviewPanel();
   }
 
   function setControlSelected(control, shouldSelect) {
@@ -338,7 +284,6 @@
     const info = img ? getImageInfo(img) : {
       key: control.dataset.pzsKey,
       url: control.dataset.pzsUrl,
-      previewUrl: control.dataset.pzsPreviewUrl,
       quality: control.dataset.pzsQuality,
       title: document.title || "image",
     };
@@ -347,7 +292,6 @@
 
     control.dataset.pzsUrl = info.url;
     control.dataset.pzsKey = info.key;
-    control.dataset.pzsPreviewUrl = info.previewUrl || info.url;
     control.dataset.pzsQuality = info.quality || "image";
 
     if (shouldSelect) {
@@ -359,7 +303,6 @@
     }
 
     toolbarDirty = true;
-    previewDirty = true;
     syncControlState(control);
   }
 
@@ -369,7 +312,6 @@
     const info = img ? getImageInfo(img) : {
       key: control.dataset.pzsKey,
       url: control.dataset.pzsUrl,
-      previewUrl: control.dataset.pzsPreviewUrl,
       quality: control.dataset.pzsQuality,
       title: document.title || "image",
     };
@@ -378,7 +320,6 @@
 
     control.dataset.pzsUrl = info.url;
     control.dataset.pzsKey = info.key;
-    control.dataset.pzsPreviewUrl = info.previewUrl || info.url;
     control.dataset.pzsQuality = info.quality || "image";
 
     const shouldSelect = selected.has(info.key);
@@ -394,7 +335,6 @@
     duplicateSkips = 0;
     document.querySelectorAll(`.${CONTROL_CLASS}`).forEach(syncControlState);
     toolbarDirty = true;
-    previewDirty = true;
     updateUi();
   }
 
@@ -409,7 +349,6 @@
     });
     if (changed) {
       toolbarDirty = true;
-      previewDirty = true;
     }
     updateUi();
   }
@@ -653,7 +592,6 @@
     control.setAttribute("aria-checked", "false");
     control.dataset.pzsUrl = info.url;
     control.dataset.pzsKey = info.key;
-    control.dataset.pzsPreviewUrl = info.previewUrl || info.url;
     control.dataset.pzsQuality = info.quality || "image";
 
     control.addEventListener(
@@ -679,7 +617,6 @@
   function scanImages() {
     ensureModeToggle();
     ensureToolbar();
-    ensurePreviewPanel();
     document.querySelectorAll("img").forEach(attachControl);
     updateUi();
   }

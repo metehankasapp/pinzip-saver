@@ -152,84 +152,6 @@
   background: #ad081b !important;
 }
 
-#pzs-preview-panel {
-  position: fixed !important;
-  right: 18px !important;
-  top: 86px !important;
-  z-index: 2147483647 !important;
-  display: none !important;
-  width: 252px !important;
-  max-height: calc(100vh - 132px) !important;
-  border-radius: 16px !important;
-  background: rgba(17, 17, 17, 0.92) !important;
-  color: #fff !important;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32) !important;
-  overflow: hidden !important;
-  font-family: Arial, sans-serif !important;
-}
-
-#pzs-preview-panel.pzs-preview-panel-visible {
-  display: block !important;
-}
-
-#pzs-preview-header {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  padding: 12px 12px 9px !important;
-  gap: 12px !important;
-}
-
-#pzs-preview-header strong {
-  font-size: 14px !important;
-}
-
-#pzs-preview-meta {
-  color: rgba(255, 255, 255, 0.72) !important;
-  font-size: 12px !important;
-  white-space: nowrap !important;
-}
-
-#pzs-preview-grid {
-  display: grid !important;
-  grid-template-columns: repeat(4, 1fr) !important;
-  gap: 6px !important;
-  max-height: calc(100vh - 190px) !important;
-  overflow: auto !important;
-  padding: 0 12px 12px !important;
-}
-
-.pzs-preview-tile {
-  position: relative !important;
-  aspect-ratio: 1 / 1 !important;
-  border-radius: 8px !important;
-  overflow: hidden !important;
-  background: #333 !important;
-}
-
-.pzs-preview-tile img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  display: block !important;
-}
-
-.pzs-preview-tile span {
-  position: absolute !important;
-  left: 4px !important;
-  bottom: 4px !important;
-  max-width: calc(100% - 8px) !important;
-  padding: 2px 4px !important;
-  border-radius: 999px !important;
-  background: rgba(0, 0, 0, 0.68) !important;
-  color: #fff !important;
-  font-size: 9px !important;
-  font-weight: 700 !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-}
-
 #pzs-toast {
   position: fixed !important;
   right: 16px !important;
@@ -245,15 +167,6 @@
 }
 
 @media (max-width: 760px) {
-  #pzs-preview-panel {
-    width: 196px !important;
-    right: 10px !important;
-  }
-
-  #pzs-preview-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-  }
-
   #pzs-bulk-toolbar {
     left: 10px !important;
     right: 10px !important;

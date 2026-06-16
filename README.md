@@ -7,7 +7,6 @@ It is designed for personal archiving of content you can already view in your br
 ## Features
 
 - Selection mode keeps checkboxes hidden until you need them.
-- Preview panel shows selected thumbnails even when infinite scroll removes pins from the page.
 - `Select visible` selects only the pins currently in the viewport.
 - `Collect 200` auto-scrolls and selects loaded pins.
 - Duplicate detection uses Pinterest image hashes.
@@ -28,7 +27,7 @@ It is designed for personal archiving of content you can already view in your br
 1. Open a Pinterest board, feed, profile, or search page.
 2. Click **Select** in the lower-left corner.
 3. Select pins manually, click **Select visible**, or use **Collect 200**.
-4. Review selected thumbnails in the preview panel.
+4. Watch the selected count in the toolbar.
 5. Click **Download ZIP**.
 
 ## Privacy And Permissions
@@ -44,7 +43,7 @@ It is designed for personal archiving of content you can already view in your br
 
 Some images may be protected by site or browser fetch rules. When that happens, PinZip Saver still creates the ZIP for images it can fetch and includes blocked URLs in `failed-links.txt`.
 
-For performance on large infinite-scroll pages, the preview panel renders the latest selected thumbnails while ZIP export still includes every selected image.
+For performance on large infinite-scroll pages, PinZip Saver avoids rendering selected-image thumbnails and keeps selected image data in memory until you clear it or reload the page.
 
 ## License
 
