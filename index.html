@@ -10,11 +10,11 @@
     <meta property="og:type" content="website">
     <meta property="og:title" content="Pinterest Image Downloader Chrome Extension">
     <meta property="og:description" content="Bulk save selected Pinterest images as one clean ZIP file. Local, lightweight, and private.">
-    <meta property="og:image" content="icon128.png">
+    <meta property="og:image" content="social-preview.png">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Pinterest Image Downloader Chrome Extension">
     <meta name="twitter:description" content="Download selected Pinterest images from boards, profiles, feeds, and search pages as one ZIP.">
-    <meta name="twitter:image" content="icon128.png">
+    <meta name="twitter:image" content="social-preview.png">
     <link rel="icon" href="icon128.png">
     <script type="application/ld+json">
       {
@@ -166,109 +166,16 @@
       }
 
       .preview {
-        padding: 18px;
+        overflow: hidden;
         border: 1px solid var(--line);
         border-radius: 8px;
         background: var(--soft);
       }
 
-      .browser {
-        overflow: hidden;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #fff;
-        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.1);
-      }
-
-      .bar {
-        display: flex;
-        gap: 7px;
-        padding: 12px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: #d9d9d9;
-      }
-
-      .pins {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        padding: 14px;
-      }
-
-      .pin {
-        position: relative;
-        min-height: 132px;
-        border-radius: 8px;
-        background: linear-gradient(145deg, #ececec, #cfcfcf);
-      }
-
-      .pin:nth-child(2) {
-        min-height: 174px;
-        background: linear-gradient(145deg, #f3dfdf, #e7b2bb);
-      }
-
-      .pin:nth-child(3) {
-        min-height: 118px;
-        background: linear-gradient(145deg, #dfeee9, #a9d2c4);
-      }
-
-      .pin:nth-child(4) {
-        min-height: 164px;
-        background: linear-gradient(145deg, #eee7d8, #d3bf91);
-      }
-
-      .pin:nth-child(5) {
-        min-height: 126px;
-        background: linear-gradient(145deg, #e4e6f0, #afb8dc);
-      }
-
-      .check {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        width: 28px;
-        height: 28px;
-        border: 2px solid #fff;
-        border-radius: 8px;
-        background: var(--red);
-      }
-
-      .check::after {
-        content: "";
-        position: absolute;
-        left: 8px;
-        top: 3px;
-        width: 7px;
-        height: 14px;
-        border: solid #fff;
-        border-width: 0 3px 3px 0;
-        transform: rotate(45deg);
-      }
-
-      .toolbar {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin: 0 14px 14px;
-        padding: 10px;
-        border-radius: 8px;
-        background: #171717;
-        color: #fff;
-        font-size: 12px;
-        font-weight: 800;
-      }
-
-      .pill {
-        padding: 7px 9px;
-        border-radius: 999px;
-        background: #efefef;
-        color: #171717;
+      .preview img {
+        display: block;
+        width: 100%;
+        height: auto;
       }
 
       section {
@@ -388,27 +295,8 @@
               <a class="button secondary" href="https://github.com/metehankasapp/pinterest-image-downloader#install">Install Instructions</a>
             </div>
           </div>
-          <div class="preview" aria-label="Pinterest downloader preview">
-            <div class="browser">
-              <div class="bar">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-              </div>
-              <div class="pins">
-                <div class="pin"><span class="check"></span></div>
-                <div class="pin"></div>
-                <div class="pin"><span class="check"></span></div>
-                <div class="pin"></div>
-                <div class="pin"><span class="check"></span></div>
-                <div class="pin"></div>
-              </div>
-              <div class="toolbar">
-                <span>3 selected</span>
-                <span class="pill">Select visible</span>
-                <span class="pill">Download ZIP</span>
-              </div>
-            </div>
+          <div class="preview">
+            <img src="social-preview.png" alt="PinZip Saver Pinterest image downloader preview">
           </div>
         </div>
       </section>
