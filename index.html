@@ -201,6 +201,19 @@
         height: auto;
       }
 
+      .demo {
+        background: var(--soft);
+      }
+
+      .demo video {
+        display: block;
+        width: 100%;
+        max-height: 720px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #000;
+      }
+
       section {
         padding: 56px 0;
         border-bottom: 1px solid var(--line);
@@ -330,6 +343,15 @@
           <div class="preview">
             <img src="social-preview.png" alt="PinZip Saver Pinterest image downloader preview">
           </div>
+        </div>
+      </section>
+
+      <section class="demo">
+        <div class="wrap">
+          <h2>See it in action</h2>
+          <video controls autoplay muted loop playsinline poster="social-preview.png">
+            <source src="demo.mp4" type="video/mp4">
+          </video>
         </div>
       </section>
 
