@@ -79,7 +79,7 @@
     if (!srcset) return null;
 
     let best = null;
-    for (const rawCandidate of srcset.split(",")) {
+    for (const rawCandidate of parseSrcset(srcset)) {
       const parts = rawCandidate.trim().split(/\s+/);
       const url = cleanUrl(parts[0]);
       if (!url) continue;
@@ -90,6 +90,27 @@
     }
 
     return best;
+  }
+
+  function parseSrcset(srcset) {
+    const candidates = [];
+    let current = "";
+    let inParens = 0;
+
+    for (const char of srcset) {
+      if (char === "(") inParens += 1;
+      if (char === ")") inParens = Math.max(0, inParens - 1);
+
+      if (char === "," && inParens === 0) {
+        if (current.trim()) candidates.push(current.trim());
+        current = "";
+      } else {
+        current += char;
+      }
+    }
+
+    if (current.trim()) candidates.push(current.trim());
+    return candidates;
   }
 
   function getLargestPinterestUrl(url) {
@@ -501,17 +522,16 @@
   }
 
   async function fetchImageFile(image, index, folderName) {
-    const response = await fetch(image.url, {
-      credentials: "omit",
-      cache: "force-cache",
+    const result = await chrome.runtime.sendMessage({
+      type: "PZS_FETCH_IMAGE",
+      url: image.url,
     });
 
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    if (!result?.ok) throw new Error(result?.error || "Image fetch failed");
 
-    const contentType = response.headers.get("content-type") || "";
+    const contentType = result.contentType || "";
     const ext = getExtensionFromUrl(image.url, contentType);
-    const buffer = await response.arrayBuffer();
-    const data = new Uint8Array(buffer);
+    const data = new Uint8Array(result.bytes);
     const id = image.key?.replace(/^pinimg:/, "").slice(-12) || String(index).padStart(3, "0");
     const name = `${folderName}/${String(index).padStart(3, "0")}-${id}.${ext}`;
     return { name, data };

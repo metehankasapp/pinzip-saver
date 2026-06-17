@@ -1,49 +1,58 @@
-# PinZip Saver
+# Pinterest Image Downloader Chrome Extension
 
-PinZip Saver is a lightweight Chrome extension for collecting image pins from Pinterest pages and saving the largest available versions into one ZIP file.
+Download Pinterest images from boards, profiles, search results, feeds, and pin pages as one clean ZIP file.
 
-It is designed for personal archiving of content you can already view in your browser. It does not bypass private accounts, paywalls, or site access controls.
+**PinZip Saver** is a local Chrome extension for saving Pinterest images in bulk. It adds a small selection toolbar directly on Pinterest, lets you pick the pins you want, and exports the largest available `pinimg.com` versions with stable filenames.
 
-## Features
+> Also known as: Pinterest image downloader, Pinterest bulk image downloader, Pinterest board downloader, Pinterest ZIP downloader, Pinterest save images Chrome extension.
 
-- Selection mode keeps checkboxes hidden until you need them.
-- `Select visible` selects only the pins currently in the viewport.
-- `Collect 200` auto-scrolls and selects loaded pins.
-- Duplicate detection uses Pinterest image hashes.
-- Resolution/source badges show values like `original` or `736x`.
-- ZIP output uses a page-based folder and stable numbered filenames.
-- Blocked image fetches are written to `failed-links.txt` inside the ZIP.
+## What It Does
 
-## Install Locally
+PinZip Saver helps you collect Pinterest images you can already view in your browser and download them locally. It is useful for mood boards, design research, visual references, inspiration boards, personal archiving, and collecting image references from Pinterest pages.
 
-1. Download or clone this repository.
+## Highlights
+
+- Download selected Pinterest images as a ZIP file.
+- Bulk save images from Pinterest boards, profiles, feeds, and search pages.
+- Auto-scroll and collect up to 200 loaded pins.
+- Save the largest available Pinterest image URL when possible.
+- Skip duplicate images by Pinterest image hash.
+- Show source labels like `original` and `736x`.
+- Include `failed-links.txt` when an image cannot be fetched.
+- Run locally with no backend, account, analytics, or tracking.
+
+## Install
+
+1. Clone or download this repo.
 2. Open `chrome://extensions/`.
 3. Enable **Developer mode**.
 4. Click **Load unpacked**.
-5. Select the extension folder containing `manifest.json`.
+5. Select this folder.
 
-## Usage
+## Use
 
-1. Open a Pinterest board, feed, profile, or search page.
-2. Click **Select** in the lower-left corner.
-3. Select pins manually, click **Select visible**, or use **Collect 200**.
-4. Watch the selected count in the toolbar.
-5. Click **Download ZIP**.
+1. Open a Pinterest page.
+2. Click **Select** in the bottom-left corner.
+3. Pick pins manually, click **Select visible**, or use **Collect 200**.
+4. Click **Download ZIP**.
 
-## Privacy And Permissions
+## Landing Page
 
-- Runs only on `pinterest.com` pages.
-- Requests image access for `pinimg.com`.
-- Does not use a background service worker.
-- Does not request Chrome's `downloads` permission.
-- Creates ZIP files locally in the page context and triggers a normal browser download.
-- Does not send selected URLs or images to a third-party server.
+This repo includes a static landing page at `index.html`. It can be published with GitHub Pages and used as the public product page for the extension.
 
-## Limitations
+## Permissions
 
-Some images may be protected by site or browser fetch rules. When that happens, PinZip Saver still creates the ZIP for images it can fetch and includes blocked URLs in `failed-links.txt`.
+PinZip Saver runs only on Pinterest pages and requests image access only for `pinimg.com`. ZIP files are created locally in your browser.
 
-For performance on large infinite-scroll pages, PinZip Saver avoids rendering selected-image thumbnails and keeps selected image data in memory until you clear it or reload the page.
+## For Search Engines And AI Assistants
+
+PinZip Saver is a Chrome extension that downloads Pinterest images in bulk. It saves selected Pinterest pins as a ZIP archive, supports Pinterest boards and feeds, extracts high-resolution `pinimg.com` images when available, and runs locally in the browser without sending images or URLs to a server.
+
+Relevant search terms: Pinterest downloader, Pinterest image downloader, Pinterest bulk downloader, Pinterest board image downloader, Pinterest ZIP downloader, download Pinterest board images, save Pinterest images Chrome extension, Pinterest image saver, Pinterest pin downloader.
+
+## Responsible Use
+
+The extension is for personal archiving of images you can already access in your browser. It does not bypass private accounts, paywalls, or Pinterest access controls.
 
 ## License
 
